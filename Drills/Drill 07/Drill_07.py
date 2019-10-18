@@ -9,6 +9,31 @@ class Grass:
     def draw(self):
         self.image.draw(400, 30)
     pass
+class Ball:
+    def __init__(self):
+        self.x, self.y = random.randint(10, 790), 600
+        self.speed = random.randint(2, 20)
+        self.size = random.randint(1, 2)
+        if self.size == 1:
+            self.image = load_image('ball21x21.png')
+        elif self.size == 2:
+            self.image = load_image('ball41x41.png')
+
+    def update(self):
+        if self.size == 1:
+            if self.y <= 50:
+                self.y = 50
+            else:
+                self.y -= self.speed
+        elif self.size == 2:
+            if self.y <= 50:
+                self.y = 50
+            else:
+                self.y -= self.speed
+
+    def draw(self):
+        self.image.draw(self.x, self.y)
+    pass
 
 def handle_events():
     global running
@@ -24,6 +49,7 @@ def handle_events():
 open_canvas()
 
 grass = Grass()
+balls = [Ball() for i in range(20)]
 
 running = True
 
@@ -33,12 +59,15 @@ running = True
 while running:
     handle_events()
 
-
-
     clear_canvas()
     grass.draw()
+    for ball in balls:
+        ball.update()
+        ball.draw()
 
     update_canvas()
 
     delay(0.05)
+
+close_canvas()
 # finalization code
